@@ -23,7 +23,7 @@ def get_sales_data():
         print("Data should be six numbers, seperated by commas.")
         print("For example 1,2,3,4,5,6\n")     
         data_str = input("Enter your data here: ")
-        sales_data = data_str.split(',')    
+        sales_data = data_str.split(',')   
         if validate_data(sales_data):
             print("Valid data!")
             break
@@ -49,15 +49,26 @@ def validate_data(values):
     return True
 
 
-def update_sales_worksheet(data):
+# def update_sales_worksheet(data):
+#     """
+#     Update sales worksheet by adding new line to the sales sheet
+#     """
+#     print("Updating sales worksheet\n")
+#     sales_worksheet = SHEET.worksheet("sales")
+#     new_data = [int(value) for value in data]
+#     sales_worksheet.append_row(new_data)
+#     print("Sales worksheet has been updated successfully.\n")
+
+def update_worksheet(data, work_sheet):
     """
     Update sales worksheet by adding new line to the sales sheet
-    """
-    print("Updating sales worksheet\n")
-    sales_worksheet = SHEET.worksheet("sales")
-    new_data = [int(value) for value in data]
-    sales_worksheet.append_row(new_data)
-    print("Sales worksheet has been updated successfully.\n")
+    """ 
+    print(f"Updating {work_sheet} worksheet\n")
+    new_sheet = SHEET.worksheet(work_sheet)
+    if work_sheet == "sales":
+        data = [int(value) for value in data]
+    new_sheet.append_row(data)
+    print(f"{work_sheet} worksheet has been updated successfully.\n")
 
 
 def user_sales_data():
@@ -87,14 +98,14 @@ def calculate_surplus_data(sales_row):
     return surplus_data
 
 
-def update_surplus_worksheet(surplus_data):
-    """
-    Update surplus worksheep data by calculating it from the latest data
-    """
-    print("Updating suplus worksheet\n")
-    surplus_wroksheet = SHEET.worksheet("surplus")
-    surplus_wroksheet.append_row(surplus_data)
-    print("Surplus sheet has been updated")
+# def update_surplus_worksheet(surplus_data):
+#     """
+#     Update surplus worksheep data by calculating it from the latest data
+#     """
+#     print("Updating suplus worksheet\n")
+#     surplus_wroksheet = SHEET.worksheet("surplus")
+#     surplus_wroksheet.append_row(surplus_data)
+#     print("Surplus sheet has been updated")
 
 
 def main():
@@ -102,11 +113,10 @@ def main():
     Run all program function
     """
     user_data = get_sales_data()
-    update_sales_worksheet(user_data)
+    update_worksheet(user_data, "sales")
     sales_data = user_sales_data()
     new_surplus_data = calculate_surplus_data(sales_data)
-    print(new_surplus_data)
-    update_surplus_worksheet(new_surplus_data)
+    update_worksheet(new_surplus_data, "surplus")
 
 
 main()
