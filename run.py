@@ -119,16 +119,34 @@ def get_last_5_sales():
     return columns
 
 
+def calsulate_stock_data(data):
+    """
+    Calculate stock data for the next day 
+    and add 10 percent 
+    """
+    print("Calculating stock data\n")
+    new_stock_data = []
+    for column in data:
+        int_col = [int(number) for number in column]
+        average = sum(int_col)/len(int_col)
+        stock = average * 1.1
+        new_stock_data.append(round(stock))
+    return new_stock_data
+
+
 def main():
     """
     Run all program function
     """
+    print("Welcome to automatic stock estimator\n")
     user_data = get_sales_data()
     update_worksheet(user_data, "sales")
     sales_data = user_sales_data()
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
+    sale_data = get_last_5_sales()
+    new_stock = calsulate_stock_data(sale_data)
+    update_worksheet(new_stock, "stock")
 
 
-# main()
-get_last_5_sales()
+main()
