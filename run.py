@@ -145,6 +145,25 @@ def main():
     sale_data = get_last_5_sales()
     new_stock = calsulate_stock_data(sale_data)
     update_worksheet(new_stock, "stock")
+    return new_stock
 
 
-main()
+stock = main()
+
+
+def get_stock_values(data):
+    """
+    geting stock new stock values and creating a dictionary
+    """
+    headings = SHEET.worksheet("stock").row_values(1)
+    new_stock = {}
+    i = 0
+    while i < len(headings):
+        new_stock[headings[i]] = data[i]
+        i += 1
+    return new_stock
+
+
+stock_values = get_stock_values(stock)
+
+print(stock_values)
